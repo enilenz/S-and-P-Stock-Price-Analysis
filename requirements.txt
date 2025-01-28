@@ -2,7 +2,9 @@ pandas
 numpy 
 matplotlib
 seaborn
+scikit-learn
 Flask
 ipykernel
 yfinance
 streamlit
+-e .
