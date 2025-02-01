@@ -32,10 +32,20 @@ class TickerNotFoundError(Exception):
         message -- explanation of the error
     """
 
-    def __init__(self, ticker, error_message = "The ticker, {ticker} was not found"):
-        self.error_message = error_message
+    def __init__(self, ticker):
         self.ticker = ticker
+        self.error_message = "The index data for " + self.ticker + " was not found"
+        
         super().__init__(self.error_message)
 
     def __str__(self):
         return self.error_message
+    
+
+class InsufficientData1990():
+
+    def __init__(self):
+        pass
+    pass
+
+
