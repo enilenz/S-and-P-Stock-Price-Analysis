@@ -34,7 +34,7 @@ class DataTransformation:
             print("The shape of our data is " + str(sp500.shape))
 
             logging.info("Data read successfully")
-            logging.info("Columns " + str(sp500.columns))
+            logging.info("Columns: " + str(sp500.columns))
 
             # Delete unnecessary columns
             for i in list(sp500.columns):
@@ -45,6 +45,7 @@ class DataTransformation:
                     del sp500['Stock Splits']
                     logging.info("Stock Splits deleted")
             
+            logging.info("Deleted Dividends and Stock Splits Columns")
             print(list(sp500.columns))
 
             # Create Tomorrow column
@@ -54,10 +55,14 @@ class DataTransformation:
             sp500["Target"] = (sp500["Tomorrow"] > sp500["Close"]).astype(int)
             print(list(sp500.columns))
 
+            logging.info("Created Target and Tomorrow Columns")
+            logging.info("Removing Historical Data")
+
             # Removing hostorical data 
             sp500 = sp500.loc["1990-01-01":].copy()
             print("Columns include " + str(sp500.columns))
             print("The shape of our data is " + str(sp500.shape))
+            logging.info("Columns: " + str(sp500.columns))
 
             # Setting the file path where the processed data is saved
             file_path = os.path.basename(data_path)
@@ -66,10 +71,16 @@ class DataTransformation:
             os.makedirs(os.path.dirname(data_transformation_path),exist_ok=True)
             sp500.to_csv(data_transformation_path,index=False,header=True)
 
+            logging.info("Data Transformation done and processed data saved")
+
+            return(
+                data_transformation_path
+            )
+
         except:
             pass
 
 
 
 if __name__ == "__main__":
-    DataTransformation().initiate_data_transformation("artifacts/AAPL.csv")
+    DataTransformation().initiate_data_transformation("artifacts/APO.csv")
