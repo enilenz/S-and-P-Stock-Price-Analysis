@@ -7,4 +7,5 @@ Flask
 ipykernel
 yfinance
 streamlit
+dill
 #-e .

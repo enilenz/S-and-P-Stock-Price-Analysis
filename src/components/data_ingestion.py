@@ -30,6 +30,8 @@ class DataIngestionConfig:
     
 
 class DataIngestion:
+    """
+    """
     def __init__(self, ticker:str):
         self.ticker = ticker
         self.ingestion_config = DataIngestionConfig(ticker=self.ticker)
@@ -46,7 +48,7 @@ class DataIngestion:
 
             if sp500.empty:
                 print("empty shii")
-                raise TickerNotFoundError
+                raise TickerNotFoundError(self.ticker)
             
             logging.info("Index data for " + self.ticker +" acquired")
             print("Index data for " + self.ticker + " acquired")
@@ -56,14 +58,17 @@ class DataIngestion:
             sp500.to_csv(self.ingestion_config.data_path,index=False,header=True)
             logging.info("Index data saved to csv")
 
-            
 
             logging.info("Ingestion of the data is completed")
             print("Data Ingestion finished")
 
-        except:
-            pass
+            return(
+                self.ingestion_config.data_path
+            )
+
+        except Exception as e:
+            raise CustomException(e,sys)
 
 if __name__ == "__main__":
-    obj = DataIngestion("^34657GSPC")
+    obj = DataIngestion("BALL")
     obj.initiate_data_ingestion()
