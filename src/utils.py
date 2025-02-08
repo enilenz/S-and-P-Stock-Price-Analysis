@@ -7,6 +7,7 @@ import dill
 import pickle
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
+import streamlit as st
 
 from src.exception import CustomException
 
@@ -30,3 +31,7 @@ def load_object(file_path):
 
     except Exception as e:
         raise CustomException(e, sys)
+    
+
+def ticker_OnChange(ticker):
+    st.write(ticker)
