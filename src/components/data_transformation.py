@@ -11,6 +11,8 @@ import yfinance as yf
 import pandas as pd
 from dataclasses import dataclass
 
+import streamlit as st
+
 @dataclass
 class DataTransformationConfig:
     def __init__(self, ticker):

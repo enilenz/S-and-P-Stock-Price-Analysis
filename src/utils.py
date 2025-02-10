@@ -35,3 +35,19 @@ def load_object(file_path):
 
 def ticker_OnChange(ticker):
     st.write(ticker)
+
+
+def ticker_dictionary():
+    tickers = {
+        "Amazon": "AMZN",
+        "Google": "GOOGL",
+        "Microsoft": "MSFT",
+        "Nvidia": "NVDA",
+        "Tesla": "TSLA",
+        "Facebook": "FB",
+        "Apple": "AAPL",
+        "BlackRock": "BLK",
+        "Dell": "DELL",
+        "Chevron": "CVX",
+    }
+    return tickers

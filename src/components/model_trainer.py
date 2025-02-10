@@ -14,6 +14,8 @@ from dataclasses import dataclass
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_score
 
+import streamlit as st
+
 @dataclass
 class ModelTrainerConfig:
     model_path = os.path.join("artifacts", "model.pkl")

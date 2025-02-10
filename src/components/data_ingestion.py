@@ -11,6 +11,8 @@ import yfinance as yf
 import pandas as pd
 from dataclasses import dataclass
 
+import streamlit as st
+
 
 """
 This process is carried out on apple stock aapl
@@ -54,16 +56,17 @@ class DataIngestion:
             print("Index data for " + self.ticker + " acquired")
 
 
-            os.makedirs(os.path.dirname(self.ingestion_config.data_path),exist_ok=True)
-            sp500.to_csv(self.ingestion_config.data_path,index=False,header=True)
-            logging.info("Index data saved to csv")
+            #os.makedirs(os.path.dirname(self.ingestion_config.data_path),exist_ok=True)
+            #sp500.to_csv(self.ingestion_config.data_path,index=False,header=True)
+            #logging.info("Index data saved to csv")
 
 
             logging.info("Ingestion of the data is completed")
             print("Data Ingestion finished")
 
             return(
-                self.ingestion_config.data_path
+                sp500
+                #self.ingestion_config.data_path
             )
 
         except Exception as e:
