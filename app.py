@@ -29,10 +29,6 @@ def next_page():
 def prev_page():
     st.session_state.page -= 1
 
-
-
-
-
   
 
 
@@ -46,7 +42,7 @@ if st.session_state.page == 1:
         st.session_state["ticker"] = ""
 
 
-        title = st.text_input("Enter a stock ticker (e.g., AAPL):", "AAPL", placeholder="Search for a symbol", max_chars=4, )
+        title = st.text_input("Enter a stock ticker (e.g., AAPL):", placeholder="Search for a symbol", max_chars=4, )
         search = st.button("Search", type="primary")
         #st.caption(":red[Ticker not found]")
 
@@ -67,16 +63,18 @@ if st.session_state.page == 1:
             #st.session_state.data_frame = df
 
     st.title("Stock Market Analysis")
-    
-    #st.text("Select your prefered stock from the options in the side bar or search via the stock symbol")
-    #st.text("Use this link to search")
-    st.subheader("Here you go!")
-    st.text("Find below the last 5 entries of the dataframe")
-    #st.dataframe(df.tail())
-    
 
-    if st.button("Next", key="next_page_1", type="primary"):
-        next_page()
+    if df is None:
+        st.text("Select your prefered stock from the options in the side bar or search via the stock symbol")
+        st.text("Use this link to search")
+
+    
+    if df is not None:
+        st.subheader("Here you go!")
+        st.text("Find below the last 5 entries of the dataframe")
+        st.dataframe(df.tail())
+        if st.button("Next", key="next_page_1", type="primary"):
+            next_page()
 
 # Page 2: Data Analysis
 elif st.session_state.page == 2:
