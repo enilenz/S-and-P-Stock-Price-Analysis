@@ -12,3 +12,7 @@ from src.utils import ticker_dictionary
 import streamlit as st
 import pandas as pd
 import numpy as np
+
+
+st.write("Second Page")
+st.button("Next")
