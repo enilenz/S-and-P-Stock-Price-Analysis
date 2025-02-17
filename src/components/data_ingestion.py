@@ -45,7 +45,7 @@ class DataIngestion:
         logging.info("Data Ingestion has started")
         try:
      
-            sp500 = yf.Ticker(self.ticker)
+            sp500 = yf.Ticker(self.ticker.strip())
             sp500 = sp500.history(period = "max")
 
             if sp500.empty:
@@ -73,5 +73,5 @@ class DataIngestion:
             raise CustomException(e,sys)
 
 if __name__ == "__main__":
-    obj = DataIngestion("BALL")
+    obj = DataIngestion("AAPL")
     obj.initiate_data_ingestion()
