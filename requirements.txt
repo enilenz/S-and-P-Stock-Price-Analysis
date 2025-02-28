@@ -5,7 +5,7 @@ seaborn
 scikit-learn
 Flask
 ipykernel
-yfinance==0.2.52
+yfinance==0.2.54
 streamlit
 dill
 #-e .

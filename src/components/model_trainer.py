@@ -32,9 +32,9 @@ class ModelTrainer:
         logging.info("Data read successfully, Model Training Initiated")
         logging.info("Columns: " + str(sp500.columns))
 
-        # Ensure Target is properly defined
-        if "Target" not in sp500.columns:
-            logging.error("Target column is missing from the dataset!")
+        # Ensure Closing Price is properly defined
+        if "Close" not in sp500.columns:
+            logging.error("Closing Price column is missing from the dataset!")
             return
 
 

@@ -8,6 +8,9 @@ import pickle
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 
 from src.exception import CustomException
 
@@ -51,3 +54,46 @@ def ticker_dictionary():
         "Chevron": "CVX",
     }
     return tickers
+
+
+
+# Sample Data - Replace this with your actual DataFrame
+df = pd.DataFrame({
+    'Daily Return': [0.01, 0.02, -0.01, 0.03, -0.02, 0.04, -0.01, 0.02, -0.03, 0.05]
+})
+
+# Function to create the histogram and KDE plot
+def plot_histogram_kde(data):
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Histogram
+    ax.hist(data["Daily Return"], bins=50, alpha=0.6, color="blue", density=True, label="Histogram")
+    
+    # KDE Plot (Kernel Density Estimate)
+    sns.kdeplot(data["Daily Return"], ax=ax, color="red", label="KDE")
+
+    ax.set_xlabel("Daily Return")
+    ax.set_ylabel("Density")
+    ax.set_title("Daily Return Distribution")
+    ax.legend()
+
+    plt.tight_layout()
+    return(st.pyplot(fig))
+
+
+def histogram_kde_string():
+    return('''
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Histogram
+    ax.hist(data["Daily Return"], bins=50, alpha=0.6, color="blue", density=True, label="Histogram")
+    
+    # KDE Plot (Kernel Density Estimate)
+    sns.kdeplot(data["Daily Return"], ax=ax, color="red", label="KDE")
+
+    ax.set_xlabel("Daily Return")
+    ax.set_ylabel("Density")
+    ax.set_title("Daily Return Distribution")
+    ax.legend()
+''')
+
