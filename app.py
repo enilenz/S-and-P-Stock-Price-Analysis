@@ -18,6 +18,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from sklearn.linear_model import LinearRegression 
+
 df= None
 
 if "df" not in st.session_state:
@@ -26,14 +28,29 @@ if "df" not in st.session_state:
 if "page" not in st.session_state:
     st.session_state.page = 1  # Start on page 1
 
+js = '''
+<script>
+    var body = window.parent.document.querySelector(".main");
+    console.log(body);
+    body.scrollTop = 0;
+</script>
+'''
+
 # Function to switch pages
 def next_page():
     st.session_state.page += 1
+    st.components.v1.html(js)
 
 def prev_page():
     st.session_state.page -= 1
+    st.components.v1.html(js)
 
-  
+def back_to_start():
+    st.session_state.page = 1 
+    st.session_state.df = None 
+    st.components.v1.html(js)
+
+
 
 # Main Page   
 
@@ -76,8 +93,8 @@ if st.session_state.page == 1:
         st.write("1.) What was the change in price of the stock over time?")
         st.write("2.) What was the moving average of the various stocks?") 
         st.write("3.) What was the daily return of the stock on average")
-        st.write("4.) How much value do we put at risk by investing in a particular stock?")
-        st.write("5.) How can we attempt to predict future stock behavior?")
+        #st.write("4.) How much value do we put at risk by investing in a particular stock?")
+        st.write("4.) How can we attempt to predict future stock behavior?")
         st.write("")
         st.text("When you are ready to begin select your prefered stock from the options in the side bar or use the search bar")
         st.write("You can find the symbol of your choice on the S&P500 Wikipedia Page using this [link](%s) " % url)
@@ -229,10 +246,85 @@ elif st.session_state.page == 5:
         st.write("We drop the NaN values using dropna() function and store the feature variables in X.")
         
         code = '''
+
+        df= df.dropna() 
+        X = df[['MA for 10 days','MA for 20 days']] 
+        X.tail()
         '''
         st.code(code, )
 
-        st.code("")
+
+        df= df.dropna() 
+        X = df[['MA for 10 days','MA for 20 days']] 
+        st.write(X.tail())
+
+        # Save back to session state
+        #st.session_state.df = df  
+        #ticker value 
+        ticker = st.session_state.ticker
+        st.header("Define dependent  variables")
+        st.write("Similarly, the dependent variable depends on the values of the explanatory variables. Simply put, it is the "+ ticker+" price which we are trying to predict. We store the " + ticker+"  price in y.")
+        code ='''
+        y = df['Close']
+        y.tail()
+        '''
+        st.code(code,)
+
+        y = df['Close']
+        y.tail()
+        st.write(y.tail())
+
+
+        st.header("Splitting the data into training and testing dataset")
+        st.write("In this step, we split the predictors and output data into train and test data. The training data is used to create the linear regression model, by pairing the input with expected output. The test data is used to estimate how well the model has been trained.")
+
+
+        code = '''
+        t=.8 
+        t = int(t*len(df)) 
+        # Train dataset 
+        X_train = X[:t] 
+        y_train = y[:t]  
+        # Test dataset `
+        X_test = X[t:] 
+        y_test = y[t:]
+        '''
+
+        st.code(code,)
+
+        t=.8 
+        t = int(t*len(df)) 
+        X_train = X[:t] 
+        y_train = y[:t]  
+        X_test = X[t:] 
+        y_test = y[t:]
+
+        linear = LinearRegression().fit(X_train,y_train)
+
+        predicted_price = linear.predict(X_test)  
+        predicted_price = pd.DataFrame(predicted_price, index=y_test.index, columns = ['price'])  
+        
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.plot(predicted_price)
+        ax.plot(y_test)
+        #predicted_price.plot(figsize=(10,5))  
+        #y_test.plot()  
+        ax.legend(['predicted_price','actual_price'])  
+        ax.set_ylabel("AAPL Price")  
+        st.pyplot(fig)
+
+
+
+
+
+
+
+
+
+
+
+
+
     if st.button("Previous", key="prev_page_5"):
         prev_page()
 
@@ -242,8 +334,12 @@ elif st.session_state.page == 5:
 
 # Page 3: More Advanced Analysis
 elif st.session_state.page == 6:
-    st.title("Advanced Stock Analysis")
-    st.write("Perform more advanced stock market analysis here...")
+    st.title("Summary")
+    st.write("In this application, we discovered and explored stock market data from the YAHOO Finance website using the yfinance API.")
+    st.write("We visualized both the closing price of the stock and the volume traded in order to notice the dominant trends that occur overtime.")
+    st.write("We calculated the stock's Moving Average in order to smooth out price fluctuations and potentially spot buy/sell opportunities")
+    st.write("Using the close price of the stock we were able to build a simple Linear Regression model that was able to predict the closing price based on the stock's moving average.")
+
 
     if "df" in st.session_state:
         df = st.session_state.df
@@ -252,5 +348,5 @@ elif st.session_state.page == 6:
     if st.button("Previous", key="prev_page_6"):
         prev_page()
 
-    if st.button("Next", key="next_page_6", type="primary"):
-        next_page()    
+    if st.button("Back to start", key="next_page_6", type="primary"):
+        back_to_start()    
