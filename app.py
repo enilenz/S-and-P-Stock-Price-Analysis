@@ -88,12 +88,11 @@ if st.session_state.page == 1:
 
 
     if st.session_state.df is None:
-        st.write("In this application, we will discover and explore data from the stock market  will also be predicting future stock prices through a ---- method!")
+        st.write("In this application, we will discover and explore data from the stock market  will also be predicting future stock prices using a simple Linear Regression model!")
         st.write("We'll be answering the following questions along the way:")
         st.write("1.) What was the change in price of the stock over time?")
         st.write("2.) What was the moving average of the various stocks?") 
         st.write("3.) What was the daily return of the stock on average")
-        #st.write("4.) How much value do we put at risk by investing in a particular stock?")
         st.write("4.) How can we attempt to predict future stock behavior?")
         st.write("")
         st.text("When you are ready to begin select your prefered stock from the options in the side bar or use the search bar")
